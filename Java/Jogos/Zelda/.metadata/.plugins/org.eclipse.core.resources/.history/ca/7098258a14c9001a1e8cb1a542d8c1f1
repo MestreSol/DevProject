@@ -189,31 +189,18 @@ public class Player extends Entity{
 		Camera.y = Camera.clamp(this.y - (Game.HEIGHT/2),0,World.HEIGHT*16 - Game.HEIGHT);
 	
 	}
-	
 	public void render(Graphics g) {
-	
 		if(right) {
-		
 			g.drawImage(RightPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}
-		
 		else if(left) {
-		
 			g.drawImage(LeftPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}else if(up) {
-		
 			g.drawImage(TopPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}else if(down) {
-		
 			g.drawImage(DownPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);	
-		
 		}else {
-		
 			g.drawImage(DownPlayer[index],this.getX() - Camera.x,this.getY() - Camera.y,null);
-		
 		}
 		
 	}

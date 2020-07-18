@@ -151,69 +151,43 @@ public class Player extends Entity{
 				frames = 0;
 				index++;
 				
-				if(index >= maxIndex) {
+				if(index>=maxIndex) {
 				
-					index = 2;
+					index =2;
 				
 				}
 			}
 			
 		}else {
-			
 			frames++;
-			
 			if(frames == maxFrame) {
-			
 				frames = 0;
-				
 				if(index > 1) {
-				
 					index = 0;
-					
 					return;
 				}
-				
 				if(index == 0) {
-				
 					index++;
-				
 				}else {
-				
-					index--;
-				
+					index --;
 				}
 			}
 			}
-		
-		Camera.x = Camera.clamp(this.x - (Game.WIDTH/2),0,World.WIDTH *16- Game.WIDTH);
-		Camera.y = Camera.clamp(this.y - (Game.HEIGHT/2),0,World.HEIGHT*16 - Game.HEIGHT);
-	
+		Camera.x =  Camera.clamp(this.x - (Game.WIDTH/2),0,World.WIDTH *16- Game.WIDTH);
+		Camera.y =  Camera.clamp(this.y - (Game.HEIGHT/2),0,World.HEIGHT*16 - Game.HEIGHT);
 	}
-	
 	public void render(Graphics g) {
-	
 		if(right) {
-		
 			g.drawImage(RightPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}
-		
 		else if(left) {
-		
 			g.drawImage(LeftPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}else if(up) {
-		
 			g.drawImage(TopPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
-		
 		}else if(down) {
-		
 			g.drawImage(DownPlayer[index],this.getX() - Camera.x,this.getY()- Camera.y,null);	
-		
 		}else {
-		
 			g.drawImage(DownPlayer[index],this.getX() - Camera.x,this.getY() - Camera.y,null);
-		
 		}
 		
 	}
