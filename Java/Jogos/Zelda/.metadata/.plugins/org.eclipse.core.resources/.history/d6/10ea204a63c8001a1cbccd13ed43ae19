@@ -1,0 +1,8 @@
+package com.HagekopStudios.graficos;
+
+public class Spritesheet {
+	
+	private BufferedImage spritesheet;
+	public Spritesheet()
+	
+}

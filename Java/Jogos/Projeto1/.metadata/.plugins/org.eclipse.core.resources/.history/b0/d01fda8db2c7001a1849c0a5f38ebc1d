@@ -1,0 +1,54 @@
+import java.awt.Canvas;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+public class Main extends Canvas implements Runnable	{
+	public boolean is_runing = false;
+	private Thread th;
+	
+	private static JFrame frame;
+	
+	private final int WIDHTa = 160;
+	private final int HEIGHT = 120;
+	private final int SCALE = 3;
+	public static void main(String[] args) {
+		Main maian = new Main();
+		maian.start();
+	}
+	public void startTela() {
+		frame = new JFrame();
+		
+		frame.setSize(WIDHTa*SCALE,HEIGHT*SCALE);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+		
+	}
+	
+	
+	//metodo de sicronia, responsavel por iniciar o jogo de fato
+	public synchronized void start() {
+			startTela();
+			is_runing = true;
+			th = new Thread(this);
+			th.start();
+	}
+	
+	public void tick() {
+		//attgaem
+		System.out.println("tick");
+	}
+	public void render() {
+		//render
+		System.out.println("render");
+	}
+	@Override
+	public void run() {
+		while(is_runing) {
+			tick();
+			render();
+		}
+	}
+}
+	

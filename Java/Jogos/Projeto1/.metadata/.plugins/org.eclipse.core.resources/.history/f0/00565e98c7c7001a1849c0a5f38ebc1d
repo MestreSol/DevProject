@@ -1,0 +1,59 @@
+package pong;
+
+import java.awt.Canvas;
+
+import javax.swing.JFrame;
+
+public class Game extends Canvas implements Runnable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static JFrame frame = new JFrame();
+	private Thread thread;
+	private boolean isRunning = false;
+	
+	public Game() {
+		
+		
+	}
+
+	public synchronized void start() {
+		initFrame();
+		thread = new Thread(this);
+		isRunning = true;
+		thread.start();
+	}
+	public synchronized void stop() {
+		isRunning = false;
+		
+		try {
+			
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	public void initFrame() {
+	
+		frame = new JFrame("game #1");
+		frame.add(this);
+		frame.setResizable(false);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	
+	}
+	@Override
+	public void run() {
+		
+		while(isRunning) {}
+		
+	}
+	
+	public static void main(String[] args) {
+		Game game = new Game();
+		game.start();
+		
+	}
+}

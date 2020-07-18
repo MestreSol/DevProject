@@ -1,0 +1,26 @@
+package br.com.test1.functions;
+
+public class fps {
+	private long lastTime = System.nanoTime();
+	private double FPS = 60;
+	double ns = 1000000000 / FPS;
+	double delta = 0;
+	long now = 0;
+	int frames = 0;
+	double timer = System.currentTimeMillis();
+	public double calcfps() {
+		now = System.nanoTime();
+		delta +=(now-lastTime)/ns;
+		lastTime = now;
+		if(delta >=1) {
+		
+		
+			frames++;
+			delta--;
+		}if(System.currentTimeMillis()-timer >=1000) {
+			System.out.println("FPS: "+frames);
+			frames = 0;
+			timer +=1000;
+		}
+	}
+}

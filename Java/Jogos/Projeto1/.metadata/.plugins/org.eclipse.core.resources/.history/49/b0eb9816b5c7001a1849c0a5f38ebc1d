@@ -1,0 +1,65 @@
+import java.awt.Canvas;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+public class Game extends Canvas implements Runnable{
+
+	private int FPS;
+	public static JFrame frame;
+	private boolean isRunning = false;
+	private Thread th;
+	private final int WIDTH = 160;
+	private final int HEIGHT = 120;
+	private final int SCALE = 4;
+	public Game() {
+		setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
+		initFrame();
+	}
+	public void initFrame() {
+		frame = new JFrame("game #1");
+		frame.add(this);
+		frame.setResizable(false);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	public static void main(String[] args) {
+		Game game = new Game();
+		game.start();
+	}
+	public synchronized void start() {
+		th = new Thread(this);
+		isRunning = true;
+		th.start();
+	}
+	public synchronized void stop() {
+		
+	}
+	public void tick() {
+		
+	}
+	public void render() {}
+	public void run() {
+		long lastTime = System.nanoTime();
+		double amontOfTicks = 60.0;
+		double ns = 1000000000 / amontOfTicks;
+		double delta = 0;
+		long now = 0;
+		int frames = 0;
+		double timer = System.currentTimeMillis();
+		while(isRunning) {
+			now = System.nanoTime();
+			delta +=(now-lastTime)/ns;
+			if(delta >=1) {
+				tick();
+				render();
+				frames++;
+			}if(System.currentTimeMillis()-timer >=1000) {
+				System.out.println("FPS: "+frames);
+			}
+		}
+	}
+
+}

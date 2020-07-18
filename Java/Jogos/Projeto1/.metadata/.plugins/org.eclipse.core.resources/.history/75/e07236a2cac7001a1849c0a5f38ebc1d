@@ -1,0 +1,12 @@
+package pong;
+
+public class Player {
+
+	public void tick() {
+		
+	}
+	public void render(Graphic g) {
+		
+	}
+	
+}

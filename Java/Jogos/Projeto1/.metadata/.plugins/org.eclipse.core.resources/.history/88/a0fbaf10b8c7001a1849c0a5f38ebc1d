@@ -1,0 +1,6 @@
+package br.com.test1.functions;
+
+public class fps {
+	private long lastTime = System.nanoTime();
+	private double FPS = 60;
+}

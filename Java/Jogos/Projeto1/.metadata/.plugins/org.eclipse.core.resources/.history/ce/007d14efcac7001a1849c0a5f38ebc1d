@@ -1,0 +1,14 @@
+package pong;
+
+import java.awt.Graphics;
+
+public class Player {
+
+	public void tick() {
+		
+	}
+	public void render(Graphics g) {
+		
+	}
+	
+}

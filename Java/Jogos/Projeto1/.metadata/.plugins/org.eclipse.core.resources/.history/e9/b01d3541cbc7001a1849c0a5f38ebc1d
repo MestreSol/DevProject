@@ -1,0 +1,102 @@
+package pong;
+
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import javax.swing.JFrame;
+
+public class Game extends Canvas implements Runnable {
+	/**
+	 * 
+	 */
+	public Player player;
+	
+	private static final long serialVersionUID = 1L;
+	private static JFrame frame = new JFrame();
+	private Thread thread;
+	private boolean isRunning = false;
+	private static int WIDTH = 240;
+	private static int HEIDTH = 120;
+	private static int SCALE = 4;
+	
+	public Game() {
+		this.setPreferredSize(new Dimension(WIDTH*SCALE,HEIDTH*SCALE));
+		
+	}
+
+	public synchronized void start() {
+		initFrame();
+		thread = new Thread(this);
+		isRunning = true;
+		thread.start();
+	}
+	public synchronized void stop() {
+		isRunning = false;
+		
+		try {
+			thread.join();
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	public void initFrame() {
+	
+		frame = new JFrame("game #1");
+		frame.add(this);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
+	
+		frame.setVisible(true);
+	
+	}
+	public void Tick() {
+		
+	}
+	public void Render() {
+		BufferedStrategy bs = this.getBufferStrategy();
+		if(bs == null) {
+			this.createBufferStrategy(3);
+		}
+		Graphics g = 
+		player.render(g);
+	}
+	@Override
+	public void run() {
+		long lastTime = System.nanoTime();
+		double FPS = 900;
+		double ns = 1000000000/FPS;
+		double delta = 0;
+		long now = 0;
+		int frame = 0;
+		double timer = System.currentTimeMillis();
+		while(isRunning) {
+			now = System.nanoTime();
+			delta +=(now-lastTime)/ns;
+			lastTime = now;
+			if(delta >=1) {
+				Tick();
+				Render();
+				frame++;
+				delta--;
+				
+			}
+			if(System.currentTimeMillis()-timer >= 1000) {
+				System.out.println("FPS "+frame);
+				frame = 0;
+				timer +=1000;
+			}
+			
+		}
+		stop();
+		
+	}
+	
+	public static void main(String[] args) {
+		Game game = new Game();
+		game.start();
+		
+	}
+}

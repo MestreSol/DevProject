@@ -1,0 +1,28 @@
+
+public class Main implements Runnable	{
+	public boolean is_runing = false;
+	public static void main(String[] args) {
+		Main maian = new Main();
+		maian.star();
+	}
+
+	public synchronized star() {
+		
+	}
+	
+	public void tick() {
+		//attgaem
+		System.out.println("tick");
+	}
+	public void render() {
+		//render
+		System.out.println("render");
+	}
+	@Override
+	public void run() {
+		while(is_runing) {
+			tick();
+			render();
+		}
+	}
+}

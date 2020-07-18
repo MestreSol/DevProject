@@ -1,0 +1,24 @@
+INDEX VERSION 1.131+B:\DevProject\Java\Jogos\Projeto1\.metadata\.plugins\org.eclipse.jdt.core
+2586179204.index
+3450831843.index
+1148937498.index
+53258046.index
+3166927587.index
+2609714019.index
+2973695523.index
+2580861342.index
+3839578677.index
+711050520.index
+1542774334.index
+561689436.index
+615226062.index
+14516260.index
+686889833.index
+2200875372.index
+3993276655.index
+858989570.index
+4159017284.index
+1741647643.index
+2538946849.index
+3720716507.index
+222864944.index

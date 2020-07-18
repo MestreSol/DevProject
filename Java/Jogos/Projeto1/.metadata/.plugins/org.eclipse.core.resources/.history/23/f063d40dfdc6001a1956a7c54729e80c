@@ -1,0 +1,40 @@
+import java.awt.Canvas;
+
+import javax.swing.JFrame;
+
+public class Main extends Canvas implements Runnable	{
+	public boolean is_runing = false;
+	private Thread th;
+	
+	private static JFrame frame;
+	
+	public static void main(String[] args) {
+		Main maian = new Main();
+		maian.start();
+	}
+	
+	//metodo de sicronia, responsavel por iniciar o jogo de fato
+	public synchronized void start() {
+			
+			is_runing = true;
+			th = new Thread(this);
+			th.start();
+	}
+	
+	public void tick() {
+		//attgaem
+		System.out.println("tick");
+	}
+	public void render() {
+		//render
+		System.out.println("render");
+	}
+	@Override
+	public void run() {
+		while(is_runing) {
+			tick();
+			render();
+		}
+	}
+}
+	

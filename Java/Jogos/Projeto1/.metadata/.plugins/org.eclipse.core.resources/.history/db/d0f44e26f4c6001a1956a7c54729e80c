@@ -1,0 +1,17 @@
+
+public class Main implements Runnable	{
+	public boolean is_runing = false;
+	public static void main(String[] args) {
+		
+	}
+
+	public void tick() {}
+	public void render() {}
+	@Override
+	public void run() {
+		while(is_runing) {
+			tick();
+			render();
+		}
+	}
+}
