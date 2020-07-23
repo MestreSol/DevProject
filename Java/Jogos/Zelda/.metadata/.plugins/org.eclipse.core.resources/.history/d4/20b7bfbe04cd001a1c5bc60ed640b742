@@ -126,74 +126,53 @@ public class Enemy extends Entity{
 			
 			//Verifica a posição do jogador em relação ao inimigo para movimentalo, verifica tambem se ele esta colidindo com algo, Verifica a distancia que o inimigo esta do jogador
 			if((int)x < Game.player.getX() && x < Game.player.getX()+World.TILE_SIZE*3 && World.isFree((int)(x+speed), this.getY())	&& !isColidding((int)(x+speed), this.getY())){
-				
 				x+=speed;
 				last = 1;
-				
 				left = true;
 				this.moved = true;
-			
 			}
 			
 			else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY())&& x < Game.player.getX()+World.TILE_SIZE*3 && !isColidding((int)(x-speed), this.getY())) {
-			
 				x-=speed;
 				last = 2;
-				
 				right = true;
 				this.moved = true;
-			
 			}
 		
 			if((int)y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed)) &&!isColidding(this.getX(), (int)(y+speed)) && y < Game.player.getX()+World.TILE_SIZE*3){
-			
 				y+=speed;
 				last = 3;
-				
 				up =true;
 				this.moved = true;
-			
 			}
 			
 			else if((int)y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed)) && !isColidding(this.getX(), (int)(y-speed))&& y  <  Game.player.getX()+World.TILE_SIZE*3) {
-			
 				last = 4;
 				y-=speed;
-			
-				down = true;
-				this.moved = true;
+			down = true;
+			this.moved = true;
 			
 			}else {
-				
 				switch(last) {
-				
 				case 1:
-					
 					left = true;
-				
 					break;
-				
 				case 2:
-				
 					right = true;
-					
 					break;
-				
 				case 3:
-				
 					up = true;
-					
 					break;
-				
 				case 4:
-				
 					down = true;
-					
 					break;
 			
 			}
 			
+			
+		
 		}
+			
 			
 		}else{
 			//Estamos colidindo
@@ -204,8 +183,6 @@ public class Enemy extends Entity{
 			
 			
 		}
-		
-		//Verifica se o inimigo esta se movimentando, caso esteja o array sera executado do 2 ao 5 caso nao do 0 ao 1
 		if(moved) {
 			frames++;
 			if(frames == maxFrames) {
