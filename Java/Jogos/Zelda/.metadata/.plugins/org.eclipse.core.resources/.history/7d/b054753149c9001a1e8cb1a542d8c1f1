@@ -1,0 +1,130 @@
+package com.HagekopStudios.entities;
+
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+
+import com.HagekopStudios.main.Game;
+import com.HagekopStudios.world.Camera;
+import com.HagekopStudios.world.World;
+
+public class Enemy extends Entity{
+	private int maskx = 8,masky = 8,maskw = 10,maskh = 10;
+	private int speed = 1;
+	private int frames = 0, maxFrame = 7, index = 0, maxIndex = 2;
+	private BufferedImage[] RightEnemy;
+	private BufferedImage[] LeftEnemy;
+	private BufferedImage[] TopEnemy;
+	private BufferedImage[] DownEnemy;
+	private boolean Right, left, top, down;
+	private boolean moved =false;
+	public Enemy(int x, int y, int width, int height, BufferedImage sprite) {
+		super(x, y, width, height, sprite);
+		RightEnemy = new BufferedImage[3];
+		LeftEnemy = new BufferedImage[3];
+		TopEnemy = new BufferedImage[3];
+		DownEnemy = new BufferedImage[3];
+		for(int i = 0; i < 2;i++) {
+			RightEnemy[i] = Game.spritesheet.getSprite(112+(World.TILE_SIZE*i), 32,World.TILE_SIZE, World.TILE_SIZE); 
+		}
+		for(int i = 0; i <= 2;i++) {
+			LeftEnemy[i] = Game.spritesheet.getSprite(112+(World.TILE_SIZE*i), 48,World.TILE_SIZE, World.TILE_SIZE); 
+		}
+		for(int i = 0; i <= 2;i++) {
+			TopEnemy[i] = Game.spritesheet.getSprite(112+(World.TILE_SIZE*i), 0,World.TILE_SIZE, World.TILE_SIZE); 
+		}
+		for(int i = 0; i <= 2;i++) {
+			DownEnemy[i] = Game.spritesheet.getSprite(112+(World.TILE_SIZE*i), 18,World.TILE_SIZE, World.TILE_SIZE); 
+		}
+		
+	}
+	public void tick() {
+		if(this.isColidding_Player() == false) {
+		if(x < Game.player.getX() && World.isFree((int)(x+speed), this.getY()) && !isColidding((int)(x+speed), this.getY())) {
+			moved = true;
+			Right = true;
+			x+=speed;	
+		
+		}else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY())&& !isColidding((int)(x-speed), this.getY())) {
+			moved = true;
+			left = true;
+			x-=speed;
+		}
+		
+		if(y < Game.player.getY()&& World.isFree(this.getX(), (int)(y+speed)) && !isColidding(this.getX(), (int)(y+speed))) {
+			moved = true;
+			top = true;
+			y+=speed;	
+		
+		}else if(y> Game.player.getY() && World.isFree(this.getX(), (int)(y-speed))&& !isColidding(this.getX(), (int)(y-speed))) {
+			moved = true;
+			down = true;
+			y-=speed;
+			
+		}
+		
+		if(moved) {
+			
+			moved = false;
+			frames++;
+			
+			if(frames == maxFrame) {
+			
+				frames = 0; 
+				index++;
+			
+			}
+			
+			if(index >=maxIndex) {
+			
+				index = 0;
+			
+			}
+		}
+		}
+	}
+	public void render(Graphics g) {	
+		
+		if(Right) {
+			Right = false;
+			g.drawImage(RightEnemy[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
+		
+		}
+		
+		else if(left) {
+		left = false;
+			g.drawImage(LeftEnemy[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
+		
+		}else if(top) {
+		top = false;
+			g.drawImage(TopEnemy[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
+		
+		}else if(down) {
+			down = false;
+			g.drawImage(DownEnemy[index],this.getX() - Camera.x,this.getY()- Camera.y,null);	
+		
+		}else {
+			g.drawImage(TopEnemy[index],this.getX() - Camera.x,this.getY()- Camera.y,null);
+		}
+	}
+	public boolean isColidding_Player() {
+		Rectangle enemyCurrent = new Rectangle(this.getX() + maskx,this.getY() + masky,maskw,maskh);
+		Rectangle Player = new Rectangle(Game.player.getX(),Game.player.getY());
+		
+		return enemyCurrent.intersects(Player);
+	}
+	public boolean isColidding(int xnext,int ynext){
+		Rectangle enemyCurrent = new Rectangle(xnext + maskx,ynext + masky,maskw,maskh);
+		for(int i =0; i < Game.enemies.size(); i++){
+			Enemy e = Game.enemies.get(i);
+			if(e == this)
+				continue;
+			Rectangle targetEnemy = new Rectangle(e.getX()+ maskx,e.getY()+ masky,maskw,maskh);
+			if(enemyCurrent.intersects(targetEnemy)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+}

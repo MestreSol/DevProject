@@ -3,6 +3,7 @@ package com.HagekopStudios.main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,12 +11,15 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
+import com.HagekopStudios.entities.Enemy;
 import com.HagekopStudios.entities.Entity;
 import com.HagekopStudios.entities.Player;
 import com.HagekopStudios.graficos.Spritesheet;
+import com.HagekopStudios.graficos.UI;
 import com.HagekopStudios.world.World;
 
 public class Game extends Canvas implements Runnable, KeyListener {
@@ -30,24 +34,39 @@ public class Game extends Canvas implements Runnable, KeyListener {
 	
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
-	private final int SCALE = 3;
+	public static final int SCALE = 3;
 	
 	private BufferedImage image;
-
+	private UI ui;
+	
 	public static World world;
 	public static List<Entity> entities;
+	public static List<Enemy> enemies;
 	public static Player player;
 	public static Spritesheet spritesheet;
+	
+	public static Spritesheet uiSprite;
+	public static Spritesheet uiDamege;
+	
+	
+	
+	public static Random rand;
 	public Game() {
+		
+		rand = new Random();
 		addKeyListener(this);
 		setPreferredSize(new Dimension(WIDTH*SCALE,HEIGHT*SCALE));
 		initFrame();
-		
+		ui = new UI();
 
 		image = new BufferedImage(WIDTH,HEIGHT,BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
+		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png");
-		player = new Player(0,0,15,15,spritesheet.getSprite(33, 1,15 ,15));
+		uiSprite = new Spritesheet("/UI.png");
+		uiDamege = new Spritesheet("/UIDamege.png");
+		player = new Player(0,0,16,16,spritesheet.getSprite(33, 1,16 ,16));
+		
 		entities.add(player);
 		world = new World("/map.png");
 		
@@ -129,10 +148,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		
 			Entity e = entities.get(i);
 			
+			
 			e.render(g);
 		
 		}
-		
+		ui.render(g);
+		g.setFont(new Font("Arial",Font.BOLD,9));	
+		if(player.getAmmo() == 0) {
+			g.setColor(new Color(255,0,0));
+		}else {
+			g.setColor(new Color(0,255,0));
+		}
+		g.drawString(""+player.getAmmo(), 45, 153);
 		g.dispose();
 		g=bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE,null);
@@ -153,6 +180,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 		
 		int frames = 0;
 		
+		requestFocus();
 		while(isRunning) {
 		
 			long now = System.nanoTime();

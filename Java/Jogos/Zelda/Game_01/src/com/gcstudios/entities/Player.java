@@ -2,9 +2,7 @@ package com.gcstudios.entities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
-import com.gcstudios.graficos.Spritesheet;
 import com.gcstudios.main.Game;
 import com.gcstudios.world.Camera;
 import com.gcstudios.world.World;

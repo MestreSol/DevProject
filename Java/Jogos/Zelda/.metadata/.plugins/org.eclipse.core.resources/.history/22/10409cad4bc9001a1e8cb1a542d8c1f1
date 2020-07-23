@@ -1,0 +1,17 @@
+package com.HagekopStudios.graficos;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
+import com.HagekopStudios.main.Game;
+
+public class UI {
+	
+	
+	public void render(Graphics g) {
+		g.setColor(Color.red);
+		g.fillRect(20, 30, 20,Game.player.maxLife);
+		g.setColor(Color.green);
+		g.fillRect(20, 20, 20,(Game.player.life/Game.player.maxLife)*50);
+	}
+}
