@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static final int HEIGHT = 160;
 	public static final int SCALE = 3;
 
-	public static int CUR_LEVEL = 3;
+	public static int CUR_LEVEL = 1;
 
 	public static BufferedImage image;
 
@@ -57,9 +57,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public static Player player;
 
-	public static String GameState = "NORMAL";
+	public Menu menu;
+	public static String GameState = "MENU";
 	public static String map;
-	public static String MapTipe = "PRISION";
+	public static String MapTipe = "DEFAULT";
 	
 	public static Spritesheet spritesheet;
 	public static Spritesheet uiSprite;
@@ -83,6 +84,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		Bullets = new ArrayList<Bullet>();
 		entities.add(player);
 		world = new World("/" + map);
+		
+		menu = new Menu();
 	}
 
 	public Game() {
@@ -167,7 +170,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				Bullets.get(i).tick();
 			}
 		} else if (GameState.equals("GAME_OVER")) {
-			System.out.println("GameOver");
+			
+		}else if(GameState.equals("MENU")) {
+			
 		}
 	}
 
@@ -206,19 +211,24 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			g.setColor(new Color(0, 255, 0));
 		}
 		g.drawString("" + player.getAmmo(), 45, 153);
-		g.drawString("" + player.getReservaMuni(), 34, 153);
+		g.drawString("" + player.getReservaMuni(), 30, 153);
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
 		if (Game.GameState.equals("GAME_OVER")) {
+			
 			Graphics2D g2d = (Graphics2D) g;
 
 			g2d.setColor(new Color(0, 0, 0, 100));
 			g2d.fillRect(0, 0, WIDTH * SCALE, HEIGHT * SCALE);
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Arial", Font.BOLD, 30));
-			g.drawString("GAME OVER", ((WIDTH * SCALE) - 150) / 2, ((HEIGHT * SCALE)) / 2);
+			g.drawString("GAME OVER", ((WIDTH * SCALE)) / 2-50, ((HEIGHT * SCALE)) / 2-20);
+			g.drawString("> pressione enter para continuar <", ((WIDTH * SCALE)) / 2-200, ((HEIGHT * SCALE)) / 2+40);
+		}else if(Game.GameState.equals("MENU")) {
+			menu.render(g);
 		}
+		
 		bs.show();
 
 	}
@@ -304,9 +314,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			player.setUp(false);
+			menu.up = true;
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			player.setDown(false);
-
+			if(GameState == "MENU") {
+				menu.down = true;
+			}
+		}
+		if(this.GameState.equals("GAME_OVER") && e.getKeyCode() == KeyEvent.VK_ENTER) {
+				this.GameState = "NORMAL";
+				this.resetGame();
 		}
 	}
 

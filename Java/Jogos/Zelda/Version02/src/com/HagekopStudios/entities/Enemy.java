@@ -31,7 +31,7 @@ public class Enemy extends Entity {
 
 	// Variaveis padroes
 	
-	private int life = 1;
+	private int life = 5;
 	private int frames = 0;
 	private int index = 0;
 	private int damageFrames = 10;

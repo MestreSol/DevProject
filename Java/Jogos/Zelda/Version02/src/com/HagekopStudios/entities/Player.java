@@ -13,7 +13,7 @@ public class Player extends Entity {
 	public double life = 100, maxLife = 100;
 	
 	public int speed = 2;
-	private int frames = 0, maxFrame = 7, index = 0, maxIndex = 5;
+	private int frames = 0, maxFrame = 7, index = 0, maxIndex = 5,AtualFrame = 0;
 	private int ammo = 12;
 	private int maxAmmo = 12;
 	private int reservaMuni = 0;
@@ -203,6 +203,9 @@ public class Player extends Entity {
 
 	public void tick() {
 		if (shoot && arma) {
+			
+			
+			
 			if (!(this.ammo <= 0)) {
 				int dx;
 			
@@ -225,7 +228,8 @@ public class Player extends Entity {
 			} else {
 				reload();
 			}
-		}
+			}
+		if(frames >= 5 ) {
 		if (mouseShoot && arma) { 
 			if (!(this.ammo <= 0)) {
 				angle = Math.atan2(my - (this.getY() + (World.TILE_SIZE / 2) - Camera.y),
@@ -250,7 +254,7 @@ public class Player extends Entity {
 				ammo--;
 			} else {
 				reload();
-			}
+			}}
 		}
 		moved = false;
 

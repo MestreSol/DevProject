@@ -43,7 +43,7 @@ public class World {
 					int pixelA = pixels[xx+(yy*map.getWidth())]; 
 					
 					if(Game.MapTipe.equals("PRISION")) {
-						tiles[xx+(yy*WIDTH) ] = new FloorTile(Tile.TILE_FLOOR_PRISION,xx*TILE_SIZE,yy*TILE_SIZE);
+		
 					}else if(Game.MapTipe.equals("DEFAULT")) {
 						tiles[xx+(yy*WIDTH) ] = new FloorTile(Tile.TILE_FLOOR,xx*TILE_SIZE,yy*TILE_SIZE);
 					}
@@ -76,40 +76,6 @@ public class World {
 					
 					}else if(pixelA == 0xFF000000) { 
 					
-					}else if(pixelA == 0xFF8CFFAA) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_CORNER_RIGTH_TOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF67BC7F) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_TOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF00FF43) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_RIGTH,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF267F42) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_RIGTH_NONE,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF002108) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_END_RIGTH,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF529665) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_MID_TOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF00AD34) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_END_TOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF808080) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_FLOOR_PRISION,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF2A4933) {
-						tiles[xx+(yy*WIDTH)] = new WallTile(Tile.TILE_WALL_PRISION_LEFT,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFFE0FFE8) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_LEFT_TOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF3AFF5E) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_MID_LEFT,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF398F50) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_END_LEFT,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF396846) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_RIGTH_DOWN,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF4E8E5F) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_LEFT_DOWN,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF19542A) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_END_LEFT,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF265132) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_CORNER_RIGTHTOP,xx*TILE_SIZE,yy*TILE_SIZE);
-					}else if(pixelA == 0xFF305139) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(Tile.TILE_WALL_PRISION_RIGTH,xx*TILE_SIZE,yy*TILE_SIZE);
 					}
 				} 
 			}
