@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import com.HagekopStudios.entities.Bullet;
 import com.HagekopStudios.entities.Enemy;
@@ -172,7 +173,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		} else if (GameState.equals("GAME_OVER")) {
 			
 		}else if(GameState.equals("MENU")) {
-			
+			menu.tick();
 		}
 	}
 
@@ -211,6 +212,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			g.setColor(new Color(0, 255, 0));
 		}
 		g.drawString("" + player.getAmmo(), 45, 153);
+		if (player.getReservaMuni() == 0) {
+			g.setColor(new Color(255, 0, 0));
+		} else {
+			g.setColor(new Color(0, 255, 0));
+		}
 		g.drawString("" + player.getReservaMuni(), 30, 153);
 		g.dispose();
 		g = bs.getDrawGraphics();
@@ -321,9 +327,25 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				menu.down = true;
 			}
 		}
-		if(this.GameState.equals("GAME_OVER") && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if(this.GameState.equals("GAME_OVER")) {
 				this.GameState = "NORMAL";
 				this.resetGame();
+			}
+			if(this.GameState.equals("MENU")) {
+				if(menu.currentOption == 0) {
+					this.GameState = "NORMAL";	
+					this.resetGame();
+				}else if(menu.currentOption == 1) {
+					JOptionPane.showMessageDialog(null, "Opção indisponivel no momento");
+				}else if(menu.currentOption == 2) {
+					System.exit(1);
+					stop();
+				}
+			}
+		}
+		if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
+			Game.GameState = "MENU";
 		}
 	}
 

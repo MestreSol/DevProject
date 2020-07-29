@@ -6,10 +6,11 @@
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Entity"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapontwo"/>
-<fullyQualifiedTypeName name="java.awt.Font"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.World"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapon"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.Camera"/>
-<fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.main.Game"/>
+<fullyQualifiedTypeName name="java.awt.Color"/>
+<fullyQualifiedTypeName name="java.awt.Font"/>
+<fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 </qualifiedTypeNameHistroy>

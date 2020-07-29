@@ -43,13 +43,24 @@ public class Menu {
 		g.drawImage(fundo, 0, 0, Game.WIDTH*Game.SCALE, Game.HEIGHT*Game.SCALE,null);
 		g.setColor(new Color(79,0,0));
 		g.fillRect(0, 0, 200, Game.HEIGHT*Game.SCALE);
-		g.setColor(Color.WHITE);
+		g.setColor(new Color(222, 220, 89));
 		g.setFont(new Font("Arial",Font.BOLD,20));
 		g.drawString("Stalin and a", 40, 25);
 		g.drawString("Communist's", 35, 45);
 		g.drawString("Journey", 55, 65);
-		g.drawString("New Game", 55, 65);
+		g.setColor(Color.WHITE);
+		g.drawString("New Game", 40, 130);
+		g.drawString("Loading", 40, 160);
+		g.drawString("Exit", 40, 190);
 		
+		if(options[currentOption] == "New Game") {
+		g.drawString(">", 20, 130);
+		}else if(options[currentOption] == "Loading") {
+			g.drawString(">", 20, 160);
+			}
+		else if(options[currentOption] == "Exit") {
+			g.drawString(">", 20, 190);
+			}
 		
 	}
 
