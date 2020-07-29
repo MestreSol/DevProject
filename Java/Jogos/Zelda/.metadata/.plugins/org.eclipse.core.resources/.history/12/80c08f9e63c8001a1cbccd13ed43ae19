@@ -1,8 +1,0 @@
-package com.HagekopStudios.entities;
-
-public class Entity {
-	private int x;
-	private int y;
-	private int width;
-	private int height;
-}

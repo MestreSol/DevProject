@@ -1,5 +1,0 @@
-package com.HagekopStudios.entities;
-
-public class Muni extends Entity {
-
-}
