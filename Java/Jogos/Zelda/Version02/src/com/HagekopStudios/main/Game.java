@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,8 +41,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
 	public static final int SCALE = 3;
-
-	public static int CUR_LEVEL = 1;
+	
+	public static int CUR_LEVEL = 2;
 
 	public static BufferedImage image;
 
@@ -69,6 +70,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public static Random rand;
 
+	public boolean SaveGame = false;
 	public void StanceValues() {
 		DefinirMusica();
 		newmap();
@@ -136,13 +138,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 	}
 
-	public void newmap() {
+	public static void newmap() {
 
 		map = "mapa" + CUR_LEVEL + ".png";
 	}
 
-	public void resetGame() {
-
+	public static void resetGame() {
+		newmap();
+		Game.DefinirMusica();
 		Game.image = new BufferedImage(Game.WIDTH, Game.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Game.entities = new ArrayList<Entity>();
 		Game.enemies = new ArrayList<Enemy>();
@@ -158,12 +161,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	
 	}
 
-	public void DefinirMusica() {
-		if(this.GameState == "MENU") {
+	public static void DefinirMusica() {
+		if(GameState == "MENU") {
 			Sound.musicBackground.loop();
 			Sound.musicGameBackground.stop();
 			System.out.println("JAAJ");
-		}else if(this.GameState == "NORMAL") {
+		}else if(GameState == "NORMAL") {
 			Sound.musicGameBackground.loop();
 			Sound.musicBackground.stop();
 			System.out.println("JeeJ");
@@ -171,7 +174,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	}
 	public void tick() {
 
-		
+		if(this.SaveGame) {
+			SaveGame = false;
+			String[] opt1 = {"level"};
+			int[] opt2 = {CUR_LEVEL};
+			Menu.saveGame(opt1, opt2, 42);
+			System.out.println("Save game");
+		}
 		
 		if (GameState.equals("NORMAL")) {
 			
@@ -190,6 +199,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			
 		}else if(GameState.equals("MENU")) {
 			menu.tick();
+		}else if(GameState.equals("PAUSE")) {
+			Pause.tick();
 		}
 	}
 
@@ -208,7 +219,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
-
+		
 		world.render(g);
 		for (int i = 0; i < Bullets.size(); i++) {
 			Bullets.get(i).render(g);
@@ -237,6 +248,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
+	
 		if (Game.GameState.equals("GAME_OVER")) {
 			
 			Graphics2D g2d = (Graphics2D) g;
@@ -249,6 +261,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			g.drawString("> pressione enter para continuar <", ((WIDTH * SCALE)) / 2-200, ((HEIGHT * SCALE)) / 2+40);
 		}else if(Game.GameState.equals("MENU")) {
 			menu.render(g);
+		}if(Game.GameState == "PAUSE"){
+			Pause.render(g);
 		}
 		
 		bs.show();
@@ -290,6 +304,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				System.out.println("FPS: " + frames);
 				System.out.println("Vida: "+ player.life);
 				System.out.println("Sobre Vida: "+ player.sobrevida);
+				System.out.println("GameState: "+GameState);
 				frames = 0;
 				timer += 1000;
 
@@ -330,7 +345,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(this.GameState == "NORMAL" || this.GameState == "MENU") {
+		if(this.GameState == "NORMAL" || this.GameState == "MENU" || this.GameState == "PAUSE") {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.setRight(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
@@ -338,11 +353,19 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
 			player.setUp(false);
-			menu.up = true;
+			if(GameState == "MENU") {
+				menu.up = true;
+			}
+			if(GameState == "PAUSE") {
+				Pause.up = true;
+			}
 		} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 			player.setDown(false);
 			if(GameState == "MENU") {
 				menu.down = true;
+			}
+			if(GameState == "PAUSE") {
+				Pause.down = true;
 			}
 		}
 		}
@@ -353,20 +376,56 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			}
 			if(this.GameState.equals("MENU")) {
 				if(menu.currentOption == 0) {
+					File file = new File("save.stalin");
+					file.delete();
 					this.GameState = "NORMAL";	
 					DefinirMusica();
 					this.resetGame();
 				}else if(menu.currentOption == 1) {
-					JOptionPane.showMessageDialog(null, "Opção indisponivel no momento");
+					File file = new File("save.Stalin");
+					if(file.exists()) {
+						String saver = Menu.loadGame(42);
+						Menu.applySave(saver);
+						GameState = "NORMAL";
+					}else {
+						JOptionPane.showMessageDialog(null, "Nao foi encontrado nenhum arquivo de save","Save Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}else if(menu.currentOption == 2) {
 					System.exit(1);
 					stop();
 				}
+			}else if(this.GameState.equals("PAUSE")) {
+				if(Pause.options[Pause.currentOption] == "Reset") {
+					Game.GameState = "NORMAL";
+					Game.resetGame();
+				}else if(Pause.options[Pause.currentOption] == "Loading") {
+					File file = new File("save.Stalin");
+					if(file.exists()) {
+						String saver = Menu.loadGame(42);
+						Menu.applySave(saver);
+						GameState = "NORMAL";
+					}else {
+						JOptionPane.showMessageDialog(null, "Nao foi encontrado nenhum arquivo de save","Save Error", JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+				else if(Pause.options[Pause.currentOption] == "Save") {
+					SaveGame = true;
+				}else if(Pause.options[Pause.currentOption] == "Continuar") {
+					Game.GameState = "NORMAL";
+				}
+				else if(Pause.options[Pause.currentOption] == "Exit") {
+					Game.GameState = "MENU";
+					Game.DefinirMusica();
+				}
 			}
 		}
 		if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-			Game.GameState = "MENU";
+			if(Game.GameState == "NORMAL") {
+			Game.GameState = "PAUSE";
+			
 			DefinirMusica();
+			}
 		}
 	}
 

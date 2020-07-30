@@ -11,6 +11,7 @@ public class UI {
 	}
 
 	public void render(Graphics g) {
+		
 		g.setColor(Color.red);
 		g.fillRect(2, 2, 7, 100);
 		if(Game.player.sobrevida >= 1) {

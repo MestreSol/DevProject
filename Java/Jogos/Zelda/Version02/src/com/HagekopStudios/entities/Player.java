@@ -207,13 +207,13 @@ public class Player extends Entity {
 		if (shoot && arma) {
 			Sound.shoot.play();
 			
-			
+			shoot = false;
 			if (!(this.ammo <= 0)) {
 				int dx;
 			
 				int px = 0;
 				int py = 0;
-				shoot = false;
+				
 				if (right) {
 					dx = 1;
 					px = 10;
@@ -233,7 +233,7 @@ public class Player extends Entity {
 			}
 		if(frames >= 5 ) {
 		if (mouseShoot && arma) { 
-			
+			mouseShoot = false;
 			if (!(this.ammo <= 0)) {
 				angle = Math.atan2(my - (this.getY() + (World.TILE_SIZE / 2) - Camera.y), mx - (this.getX() + (World.TILE_SIZE / 2) - Camera.x));
 				 dx = Math.cos(angle);
