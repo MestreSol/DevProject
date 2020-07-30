@@ -70,9 +70,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static Random rand;
 
 	public void StanceValues() {
-		
+		DefinirMusica();
 		newmap();
-
+		
 		rand = new Random();
 		ui = new UI();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -154,13 +154,29 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		Game.entities.add(Game.player);
 		Game.world = new World("/" + Game.map);
 		Game.player.life = 100;
+		Game.player.sobrevida = 0;
 	
 	}
 
+	public void DefinirMusica() {
+		if(this.GameState == "MENU") {
+			Sound.musicBackground.loop();
+			Sound.musicGameBackground.stop();
+			System.out.println("JAAJ");
+		}else if(this.GameState == "NORMAL") {
+			Sound.musicGameBackground.loop();
+			Sound.musicBackground.stop();
+			System.out.println("JeeJ");
+		}
+	}
 	public void tick() {
-		if (GameState.equals("NORMAL")) {
-			for (int i = 0; i < entities.size(); i++) {
 
+		
+		
+		if (GameState.equals("NORMAL")) {
+			
+			for (int i = 0; i < entities.size(); i++) {
+				
 				Entity e = entities.get(i);
 
 				newmap();
@@ -272,7 +288,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			if (System.currentTimeMillis() - timer >= 1000) {
 
 				System.out.println("FPS: " + frames);
-
+				System.out.println("Vida: "+ player.life);
+				System.out.println("Sobre Vida: "+ player.sobrevida);
 				frames = 0;
 				timer += 1000;
 
@@ -313,6 +330,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if(this.GameState == "NORMAL" || this.GameState == "MENU") {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.setRight(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
@@ -327,6 +345,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				menu.down = true;
 			}
 		}
+		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if(this.GameState.equals("GAME_OVER")) {
 				this.GameState = "NORMAL";
@@ -335,6 +354,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			if(this.GameState.equals("MENU")) {
 				if(menu.currentOption == 0) {
 					this.GameState = "NORMAL";	
+					DefinirMusica();
 					this.resetGame();
 				}else if(menu.currentOption == 1) {
 					JOptionPane.showMessageDialog(null, "Opção indisponivel no momento");
@@ -346,6 +366,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		if(e.getKeyChar() == KeyEvent.VK_ESCAPE) {
 			Game.GameState = "MENU";
+			DefinirMusica();
 		}
 	}
 

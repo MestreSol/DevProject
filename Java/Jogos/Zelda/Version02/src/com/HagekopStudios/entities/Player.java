@@ -5,12 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import com.HagekopStudios.main.Game;
+import com.HagekopStudios.main.Sound;
 import com.HagekopStudios.world.Camera;
 import com.HagekopStudios.world.World;
 
 public class Player extends Entity {
 
 	public double life = 100, maxLife = 100;
+	public double sobrevida = 0;
 	
 	public int speed = 2;
 	private int frames = 0, maxFrame = 7, index = 0, maxIndex = 5,AtualFrame = 0;
@@ -203,7 +205,7 @@ public class Player extends Entity {
 
 	public void tick() {
 		if (shoot && arma) {
-			
+			Sound.shoot.play();
 			
 			
 			if (!(this.ammo <= 0)) {
@@ -231,9 +233,9 @@ public class Player extends Entity {
 			}
 		if(frames >= 5 ) {
 		if (mouseShoot && arma) { 
+			
 			if (!(this.ammo <= 0)) {
-				angle = Math.atan2(my - (this.getY() + (World.TILE_SIZE / 2) - Camera.y),
-						mx - (this.getX() + (World.TILE_SIZE / 2) - Camera.x));
+				angle = Math.atan2(my - (this.getY() + (World.TILE_SIZE / 2) - Camera.y), mx - (this.getX() + (World.TILE_SIZE / 2) - Camera.x));
 				 dx = Math.cos(angle);
 				 dy = Math.sin(angle);
 				
@@ -250,7 +252,7 @@ public class Player extends Entity {
 				}
 				Bullet bullet = new Bullet(this.getX() + px, this.getY() + py, 2, 2, null, dx, dy);
 				Game.Bullets.add(bullet);
-				
+				Sound.shoot.play();
 				ammo--;
 			} else {
 				reload();
@@ -333,6 +335,7 @@ public class Player extends Entity {
 		checkAmmo();
 		checkArma();
 		if (this.isDamege) {
+			Sound.DamegePlayer.play();
 			this.DamegeFrames++;
 			if (this.DamegeFrames == 30) {
 				this.DamegeFrames = 0;
@@ -430,7 +433,16 @@ public class Player extends Entity {
 			if (e instanceof Lifepack) {
 				if (Entity.isColidding(this, e)) {
 
+					
 					life += Game.rand.nextInt(100);
+					
+					if(life > maxLife) {
+						this.sobrevida += life-100;
+						life = 100;
+						if(this.sobrevida >=101) {
+							this.sobrevida = 100;
+						}
+					}
 					Game.entities.remove(i);
 					return;
 				}

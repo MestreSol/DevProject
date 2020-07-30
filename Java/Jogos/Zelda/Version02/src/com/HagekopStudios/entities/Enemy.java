@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.HagekopStudios.main.Game;
+import com.HagekopStudios.main.Sound;
 import com.HagekopStudios.world.Camera;
 import com.HagekopStudios.world.World;
 
@@ -13,7 +14,7 @@ public class Enemy extends Entity {
 	// Declaração dos valores inalteraveis
 	private static final int maxIndex = 4;
 	private static final int maxFrames = 20;
-	private static final int speed = 2;
+	private static final int speed = 1;
 	private static final int maskx = 8;
 	private static final int masky = 8;
 	private static final int maskw = 10;
@@ -31,7 +32,7 @@ public class Enemy extends Entity {
 
 	// Variaveis padroes
 	
-	private int life = 5;
+	private int life = 1;
 	private int frames = 0;
 	private int index = 0;
 	private int damageFrames = 10;
@@ -129,8 +130,7 @@ public class Enemy extends Entity {
 			// Verifica a posição do jogador em relação ao inimigo para movimentalo,
 			// verifica tambem se ele esta colidindo com algo, Verifica a distancia que o
 			// inimigo esta do jogador
-			if ((int) x < Game.player.getX() && x < Game.player.getX() + World.TILE_SIZE * 3
-					&& World.isFree((int) (x + speed), this.getY()) && !isColidding((int) (x + speed), this.getY())) {
+			if ((int) x < Game.player.getX() && x < Game.player.getX() + World.TILE_SIZE * 3 && World.isFree((int) (x + speed), this.getY()) && !isColidding((int) (x + speed), this.getY())) {
 
 				x += speed;
 				last = 1;
@@ -140,8 +140,7 @@ public class Enemy extends Entity {
 
 			}
 
-			else if ((int) x > Game.player.getX() && World.isFree((int) (x - speed), this.getY())
-					&& x < Game.player.getX() + World.TILE_SIZE * 3 && !isColidding((int) (x - speed), this.getY())) {
+			else if ((int) x > Game.player.getX() && World.isFree((int) (x - speed), this.getY()) && x < Game.player.getX() + World.TILE_SIZE * 3 && !isColidding((int) (x - speed), this.getY())) {
 
 				x -= speed;
 				last = 2;
@@ -151,8 +150,7 @@ public class Enemy extends Entity {
 
 			}
 
-			if ((int) y < Game.player.getY() && World.isFree(this.getX(), (int) (y + speed))
-					&& !isColidding(this.getX(), (int) (y + speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
+			if ((int) y < Game.player.getY() && World.isFree(this.getX(), (int) (y + speed)) && !isColidding(this.getX(), (int) (y + speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
 
 				y += speed;
 				last = 3;
@@ -162,8 +160,7 @@ public class Enemy extends Entity {
 
 			}
 
-			else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed))
-					&& !isColidding(this.getX(), (int) (y - speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
+			else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed)) && !isColidding(this.getX(), (int) (y - speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
 
 				last = 4;
 				y -= speed;
@@ -208,9 +205,18 @@ public class Enemy extends Entity {
 			// Player colidindo com inimigo
 
 			// Decrementa um valor aleatorio entre 0 e 3 da vida do jogador
-			Game.player.life -= Game.rand.nextInt(MaxDamege);
+			if(Game.player.sobrevida >= 1) {
+				Game.player.sobrevida -= Game.rand.nextInt(MaxDamege);
+				if(Game.player.sobrevida < 0) {
+					Game.player.life += Game.player.sobrevida;
+					Game.player.sobrevida = 0;
+				}
+			}else {
+				Game.player.life -= Game.rand.nextInt(MaxDamege);
+			}
 
 			Game.player.isDamege = true;
+			Sound.DamegePlayer.play();
 
 		}
 
@@ -270,7 +276,9 @@ public class Enemy extends Entity {
 			Entity e = Game.Bullets.get(i);
 			if(e instanceof Bullet) {
 				if(Entity.isColidding(this, e)) {
+					Sound.DamegeEnemy.play();
 					life--;
+					
 					Game.Bullets.remove(i);
 					return;
 				}
