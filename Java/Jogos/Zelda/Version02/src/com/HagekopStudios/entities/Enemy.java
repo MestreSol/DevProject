@@ -43,7 +43,7 @@ public class Enemy extends Entity {
 	private boolean right;
 	private boolean up;
 	private boolean left;
-	private boolean down;
+	private boolean down = false;
 	private boolean moved = false;
 	private boolean isDamege = false;
 	private boolean isDamaged = false;
@@ -165,7 +165,7 @@ public class Enemy extends Entity {
 				last = 4;
 				y -= speed;
 
-				down = true;
+				setDown(true);
 				this.moved = true;
 
 			} else {
@@ -192,7 +192,7 @@ public class Enemy extends Entity {
 
 				case 4:
 
-					down = true;
+					setDown(true);
 
 					break;
 
@@ -217,7 +217,7 @@ public class Enemy extends Entity {
 
 			Game.player.isDamege = true;
 			Sound.DamegePlayer.play();
-
+			
 		}
 
 		// Verifica se o inimigo esta se movimentando, caso esteja o array sera
@@ -349,7 +349,7 @@ public class Enemy extends Entity {
 
 			} else {
 
-				down = false;
+				setDown(false);
 				this.moved = false;
 
 				g.drawImage(DownEnemyDamege[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -380,12 +380,28 @@ public class Enemy extends Entity {
 
 			} else {
 
-				down = false;
+				setDown(false);
 				this.moved = false;
 
 				g.drawImage(DownEnemy[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 			}
 		}
+	}
+
+	public boolean isDown() {
+		return down;
+	}
+
+	public void setDown(boolean down) {
+		this.down = down;
+	}
+
+	public boolean isDamege() {
+		return isDamege;
+	}
+
+	public void setDamege(boolean isDamege) {
+		this.isDamege = isDamege;
 	}
 }

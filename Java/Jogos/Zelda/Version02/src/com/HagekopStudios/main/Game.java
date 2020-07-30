@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -13,6 +14,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,12 +40,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	private static final long serialVersionUID = 0l;
 
 	private boolean isRunning = true;
-
+	public InputStream stream = ClassLoader.getSystemClassLoader().getSystemResourceAsStream("fonts/pixelart.ttf");
+	public Font newfont;
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
 	public static final int SCALE = 3;
 	
-	public static int CUR_LEVEL = 2;
+	public static int CUR_LEVEL = 1;
 
 	public static BufferedImage image;
 
@@ -72,6 +76,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public boolean SaveGame = false;
 	public void StanceValues() {
+		try {
+			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(5f);
+		} catch (FontFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		DefinirMusica();
 		newmap();
 		
@@ -145,7 +155,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public static void resetGame() {
 		newmap();
-		Game.DefinirMusica();
+		
 		Game.image = new BufferedImage(Game.WIDTH, Game.HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Game.entities = new ArrayList<Entity>();
 		Game.enemies = new ArrayList<Enemy>();
@@ -174,6 +184,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	}
 	public void tick() {
 
+		
 		if(this.SaveGame) {
 			SaveGame = false;
 			String[] opt1 = {"level"};
@@ -232,7 +243,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 		}
 		ui.render(g);
-		g.setFont(new Font("Arial", Font.BOLD, 9));
+		g.setFont(newfont);
 		if (player.getAmmo() == 0) {
 			g.setColor(new Color(255, 0, 0));
 		} else {
@@ -345,7 +356,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(this.GameState == "NORMAL" || this.GameState == "MENU" || this.GameState == "PAUSE") {
+		if(GameState == "NORMAL" ||GameState == "MENU" || GameState == "PAUSE") {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.setRight(false);
 		} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
@@ -370,22 +381,23 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		}
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-			if(this.GameState.equals("GAME_OVER")) {
-				this.GameState = "NORMAL";
-				this.resetGame();
+			if(Game.GameState.equals("GAME_OVER")) {
+				Game.GameState = "NORMAL";
+				resetGame();
 			}
-			if(this.GameState.equals("MENU")) {
+			if(Game.GameState.equals("MENU")) {
 				if(menu.currentOption == 0) {
 					File file = new File("save.stalin");
 					file.delete();
-					this.GameState = "NORMAL";	
+					GameState = "NORMAL";	
 					DefinirMusica();
-					this.resetGame();
+					resetGame();
 				}else if(menu.currentOption == 1) {
 					File file = new File("save.Stalin");
 					if(file.exists()) {
 						String saver = Menu.loadGame(42);
 						Menu.applySave(saver);
+						
 						GameState = "NORMAL";
 					}else {
 						JOptionPane.showMessageDialog(null, "Nao foi encontrado nenhum arquivo de save","Save Error", JOptionPane.ERROR_MESSAGE);
@@ -394,7 +406,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 					System.exit(1);
 					stop();
 				}
-			}else if(this.GameState.equals("PAUSE")) {
+			}else if(GameState.equals("PAUSE")) {
 				if(Pause.options[Pause.currentOption] == "Reset") {
 					Game.GameState = "NORMAL";
 					Game.resetGame();

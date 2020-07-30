@@ -649,4 +649,12 @@ public class Player extends Entity {
 			}
 		}
 	}
+
+	public int getAtualFrame() {
+		return AtualFrame;
+	}
+
+	public void setAtualFrame(int atualFrame) {
+		AtualFrame = atualFrame;
+	}
 }
