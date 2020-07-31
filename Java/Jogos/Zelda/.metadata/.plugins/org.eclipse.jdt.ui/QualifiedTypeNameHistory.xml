@@ -2,15 +2,18 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.awt.List"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Entity"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapontwo"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.World"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapon"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.Camera"/>
-<fullyQualifiedTypeName name="com.HagekopStudios.main.Game"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
 <fullyQualifiedTypeName name="java.awt.Font"/>
+<fullyQualifiedTypeName name="java.applet.Applet"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.main.Sound"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.main.Game"/>
 </qualifiedTypeNameHistroy>
