@@ -30,7 +30,7 @@ public class Entity {
 	public static BufferedImage GUN_LEFT = Game.spritesheet.getSprite(176, 0, World.TILE_SIZE, World.TILE_SIZE);
 	public static BufferedImage GUN_UP = Game.spritesheet.getSprite(160, 16, World.TILE_SIZE, World.TILE_SIZE);
 	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(160, 0, World.TILE_SIZE, World.TILE_SIZE);
-	public static BufferedImage GUN_DONW = Game.spritesheet.getSprite(176, 16, World.TILE_SIZE, World.TILE_SIZE);
+	public static BufferedImage GUN_DONW = Game.spritesheet.getSprite(160, 16, World.TILE_SIZE, World.TILE_SIZE);
 	
 	public int getX() {
 		return x;

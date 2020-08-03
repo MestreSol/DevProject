@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -75,6 +76,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static Random rand;
 
 	public boolean SaveGame = false;
+	public BufferedImage f;
 	public void StanceValues() {
 		try {
 			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(5f);
@@ -188,7 +190,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 		
 		if(this.SaveGame) {
-			SaveGame = false;
+			
 			String[] opt1 = {"level","bullet","reserva"};
 			int[] opt2 = {CUR_LEVEL,player.getAmmo(),player.getReservaMuni()};
 			 
@@ -279,9 +281,30 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			Pause.render(g);
 		}
 		if(SaveGame) {
+			int frame = 0;
 			g.setColor(Color.white);
 			g.setFont(new Font("Arial", Font.BOLD,28));
-			g.drawString("Jogo Salvo", x, y);
+			try {
+				f = ImageIO.read(getClass().getResource("/save.png"));
+				g.drawImage(f,300, 100,100*3,100*3,null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			while(SaveGame) {
+				frame++;
+					
+				
+
+				if (frame == 7) {
+
+					frame = 0;
+					SaveGame = false;
+
+				}
+			}
+			
+			
 		}
 		bs.show();
 

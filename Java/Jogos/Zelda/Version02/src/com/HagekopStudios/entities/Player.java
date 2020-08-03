@@ -207,7 +207,7 @@ public class Player extends Entity {
 			
 				reservaMuni = 0;
 			
-			}
+			} 
 		}
 	}
 
@@ -232,12 +232,18 @@ public class Player extends Entity {
 					px = 10;
 					py = 7;
 				
-				} else {
+				} else if(left) {
 				
 					py = 7;
 					px = -10;
 					dx = -1;
 				
+				}else {
+					
+					py = 0;
+					px = 0;
+					dx = -1;
+					
 				}
 				
 				Bullet bullet = new Bullet(this.getX() + px, this.getY() + py, 2, 2, null, dx, 0);
@@ -275,11 +281,17 @@ public class Player extends Entity {
 						px = 10;
 						py = 7;
 				
-					} else {
-					
+					}else if(left) {
+						
 						py = 7;
-						px = -10;
-
+						px = -10; 
+						dx = -1;
+					
+					}else{
+						
+						py = 8;
+						px = 8;
+						
 					}
 				
 					Bullet bullet = new Bullet(this.getX() + px, this.getY() + py, 2, 2, null, dx, dy);
@@ -771,20 +783,20 @@ public class Player extends Entity {
 				g.drawImage(TopPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 
 			} else if (down) {
-				
+				g.drawImage(DownPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				if (arma) {
-					
+					g.drawImage(Entity.GUN_DONW, this.getX()+1-Camera.x,this.getY()+2 - Camera.y,null);
 				}
 				
-				g.drawImage(DownPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				
 
 			} else {
-				
+				g.drawImage(DownPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				if (arma) {
-					
+					g.drawImage(Entity.GUN_DONW, this.getX()+1-Camera.x,this.getY()+2 - Camera.y,null);
 				}
 				
-				g.drawImage(DownPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				
 
 			}
 

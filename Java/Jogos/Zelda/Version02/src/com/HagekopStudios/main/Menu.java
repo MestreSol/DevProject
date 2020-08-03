@@ -40,7 +40,7 @@ public class Menu {
 			e.printStackTrace();
 		
 		}
-	}
+	} 
 	
 	public void tick() {
 	
