@@ -14,11 +14,14 @@ public class UI {
 		
 		g.setColor(Color.red);
 		g.fillRect(2, 2, 7, 100);
+		
 		if(Game.player.sobrevida >= 1) {
 			
 			g.setColor(Color.green);
 			g.fillRect(2, 2, 7, (int) ((Game.player.sobrevida / Game.player.maxLife) * 100));
+		
 		}
+		
 		g.setColor(Color.red);
 		g.fillRect(2, 67, 7, 100);
 		g.setColor(Color.green);
@@ -29,8 +32,11 @@ public class UI {
 			g.drawImage(Game.uiDamege.getSprite(0, 0, 240, 160), 0, 0, Game.WIDTH, Game.HEIGHT, null);
 
 			Game.player.isDamege = false;
+			
 		} else {
+			
 			g.drawImage(Game.uiSprite.getSprite(0, 0, 240, 160), 0, 0, Game.WIDTH, Game.HEIGHT, null);
+		
 		}
 	}
 }

@@ -65,15 +65,13 @@ public class Enemy extends Entity {
 		// Laços para pegar os Sprites separadamente montando a animação
 		for (int i = 0; i < 5; i++) {
 
-			RightEnemy[i] = Game.spritesheet.getSprite(160, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			RightEnemy[i] = Game.spritesheet.getSprite(160, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
 		for (int i = 0; i < 5; i++) {
 
-			LeftEnemy[i] = Game.spritesheet.getSprite(144, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			LeftEnemy[i] = Game.spritesheet.getSprite(144, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
@@ -85,36 +83,31 @@ public class Enemy extends Entity {
 
 		for (int i = 0; i < 5; i++) {
 
-			DownEnemy[i] = Game.spritesheet.getSprite(128, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			DownEnemy[i] = Game.spritesheet.getSprite(128, 80 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
 		for (int i = 0; i < 5; i++) {
 
-			RightEnemyDamege[i] = Game.spritesheet.getSprite(160, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			RightEnemyDamege[i] = Game.spritesheet.getSprite(160, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
 		for (int i = 0; i < 5; i++) {
 
-			LeftEnemyDamege[i] = Game.spritesheet.getSprite(144, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			LeftEnemyDamege[i] = Game.spritesheet.getSprite(144, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
 		for (int i = 0; i < 5; i++) {
 
-			TopEnemyDamege[i] = Game.spritesheet.getSprite(112, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			TopEnemyDamege[i] = Game.spritesheet.getSprite(112, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,World.TILE_SIZE);
 
 		}
 
 		for (int i = 0; i < 5; i++) {
 
-			DownEnemyDamege[i] = Game.spritesheet.getSprite(128, 176 + (World.TILE_SIZE * i), World.TILE_SIZE,
-					World.TILE_SIZE);
+			DownEnemyDamege[i] = Game.spritesheet.getSprite(128, 176 + (World.TILE_SIZE * i), World.TILE_SIZE, World.TILE_SIZE);
 
 		}
 
@@ -206,13 +199,20 @@ public class Enemy extends Entity {
 
 			// Decrementa um valor aleatorio entre 0 e 3 da vida do jogador
 			if(Game.player.sobrevida >= 1) {
+				
 				Game.player.sobrevida -= Game.rand.nextInt(MaxDamege);
+				
 				if(Game.player.sobrevida < 0) {
+				
 					Game.player.life += Game.player.sobrevida;
 					Game.player.sobrevida = 0;
+				
 				}
+			
 			}else {
+			
 				Game.player.life -= Game.rand.nextInt(MaxDamege);
+			
 			}
 
 			Game.player.isDamege = true;
@@ -222,18 +222,21 @@ public class Enemy extends Entity {
 
 		// Verifica se o inimigo esta se movimentando, caso esteja o array sera
 		// executado do 2 ao 5 caso nao do 0 ao 1
+		
 		if (moved) {
 
 			// incrementa frames para ter controle do tempo de animação
+		
 			frames++;
 
 			if (frames == maxFrames) {
 
 				frames = 0;
 				index++;
+				
 				// Retorna a animação para o 0
-				if (index > maxIndex)
-					index = 2;
+				if (index > maxIndex) index = 2;
+			
 			}
 
 		} else {
@@ -246,48 +249,66 @@ public class Enemy extends Entity {
 				frames = 0;
 				index++;
 
-				if (index > 1)
-					index = 0;
+				if (index > 1) index = 0;
 			}
 		}
 
 		// System.out.println(index);
 		// Destroi o inimigo com vida 0
 		if (life <= 0) {
+			
 			destroySelf();
 			return;
+		
 		}
 
 		if (isDamaged) {
+		
 			this.damageCurrent++;
+			
 			if (this.damageCurrent == this.damageFrames) {
+			
 				this.damageCurrent = 0;
 				this.isDamaged = false;
+			
 			}
 		}
+	
 		collidionBullet();
+		
 		if(life <= 0) {
+		
 			destroySelf();
+		
 		}
 	}
 
 	public void collidionBullet() {
+		
 		for(int i = 0; i<Game.Bullets.size(); i++) {
+		
 			Entity e = Game.Bullets.get(i);
+			
 			if(e instanceof Bullet) {
+			
 				if(Entity.isColidding(this, e)) {
+				
 					Sound.DamegeEnemy.play();
 					life--;
 					
 					Game.Bullets.remove(i);
 					return;
+				
 				}
 			}
 		}
 	}
+	
 	public void destroySelf() {
+	
 		Game.enemies.remove(this);
 		Game.entities.remove(this);
+	
 	}
 
 	public boolean isColiddingWithPlayer() {
@@ -296,6 +317,7 @@ public class Enemy extends Entity {
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
 
 		return enemyCurrent.intersects(player);
+
 	}
 
 	public boolean isColidding(int xnext, int ynext) {
@@ -306,8 +328,7 @@ public class Enemy extends Entity {
 
 			Enemy e = Game.enemies.get(i);
 
-			if (e == this)
-				continue;
+			if (e == this) continue;
 
 			Rectangle targetEnemy = new Rectangle(e.getX() + maskx, e.getY() + masky, maskw, maskh);
 

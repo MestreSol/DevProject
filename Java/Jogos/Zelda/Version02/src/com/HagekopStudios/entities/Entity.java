@@ -12,6 +12,7 @@ public class Entity {
 	
 	protected int x;
 	protected int y;
+	
 	private int width;
 	private int height;
 	private int maskx = 16;
@@ -85,20 +86,27 @@ public class Entity {
 		
 		this.maskx = 0;
 		this.masky = 0;
+		
 		this.mwidth = width;
 		this.mheight = height;
 	
 	}
 	public void setMask(int maskx, int masky,int mwidth,int mheight) {
+		
 		this.maskx = maskx;
 		this.masky = masky;
+		
 		this.mwidth = mwidth;
 		this.mheight = mheight;
+	
 	}
 	public static boolean isColidding(Entity e1, Entity e2) {
+	
 		Rectangle e1Mack = new Rectangle(e1.getX()+ e1.maskx,e1.getY()+e1.masky, e1.mwidth, e1.mheight);
 		Rectangle e2Mack = new Rectangle(e2.getX()+ e2.maskx,e2.getY()+e2.masky, e2.mwidth, e2.mheight);
+		
 		return e1Mack.intersects(e2Mack);
+	
 	}
 	public void render(Graphics g) {
 	

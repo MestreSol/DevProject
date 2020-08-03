@@ -36,8 +36,10 @@ public class Pause {
 	public static void render(Graphics g) {
 		
 		Graphics2D g2d = (Graphics2D) g;
+		
 		g2d.setColor(new Color(0, 0, 0, 100));
 		g2d.fillRect(0, 0, Game.WIDTH * Game.SCALE, Game.HEIGHT * Game.SCALE);
+		
 		g.setColor(new Color(79,0,0));
 		g.fillRect(0, 0, 200, Game.HEIGHT*Game.SCALE);
 		g.setColor(new Color(222, 220, 89));
@@ -53,19 +55,29 @@ public class Pause {
 		g.drawString("Exit", 40, 250);
 		
 		if(options[currentOption] == "Reset") {
-		g.drawString(">", 20, 130);
+		
+			g.drawString(">", 20, 130);
+		
 		}else if(options[currentOption] == "Loading") {
+		
 			g.drawString(">", 20, 160);
-		}
-		else if(options[currentOption] == "Save") {
-			g.drawString(">", 20, 190);
-		}else if(options[currentOption] == "Continuar") {
-			g.drawString(">", 20, 220);
-		}
-		else if(options[currentOption] == "Exit") {
-			g.drawString(">", 20, 250);
+		
 		}
 		
+		else if(options[currentOption] == "Save") {
+		
+			g.drawString(">", 20, 190);
+		
+		}else if(options[currentOption] == "Continuar") {
+		
+			g.drawString(">", 20, 220);
+		
+		}
+		
+		else if(options[currentOption] == "Exit") {
+		
+			g.drawString(">", 20, 250);
+		
+		}
 	}
-	
 }

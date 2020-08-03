@@ -45,7 +45,9 @@ public class World {
 					if(Game.MapTipe.equals("PRISION")) {
 		
 					}else if(Game.MapTipe.equals("DEFAULT")) {
+						
 						tiles[xx+(yy*WIDTH) ] = new FloorTile(Tile.TILE_FLOOR,xx*TILE_SIZE,yy*TILE_SIZE);
+					
 					}
 					if(pixelA == 0xFFFF00DC) {
 					
@@ -59,6 +61,7 @@ public class World {
 					}else if(pixelA == 0xFFFF0000) {
 					
 						Enemy en = new Enemy(xx*TILE_SIZE,yy*TILE_SIZE,TILE_SIZE,TILE_SIZE,Entity.ENEMI_EN);
+					
 						Game.entities.add(en);
 						Game.enemies.add(en);
 					
@@ -99,10 +102,7 @@ public class World {
 		int x4 = (xnext+TILE_SIZE-1)/TILE_SIZE; 
 		int y4 = (ynext+TILE_SIZE-1)/TILE_SIZE;
 		
-		return !((tiles[x1+(y1*World.WIDTH)] instanceof WallTile || 
-				tiles[x2+(y2*World.WIDTH)] instanceof WallTile ||
-				tiles[x3+(y3*World.WIDTH)] instanceof WallTile || 
-				tiles[x4+(y4*World.WIDTH)] instanceof WallTile));
+		return !((tiles[x1+(y1*World.WIDTH)] instanceof WallTile ||	tiles[x2+(y2*World.WIDTH)] instanceof WallTile || tiles[x3+(y3*World.WIDTH)] instanceof WallTile || tiles[x4+(y4*World.WIDTH)] instanceof WallTile));
 	
 	}
 	
