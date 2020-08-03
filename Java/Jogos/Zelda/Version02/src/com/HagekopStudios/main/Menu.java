@@ -200,7 +200,7 @@ public class Menu {
 	public static void applySave(String str) {
 	
 		String[] spl = str.split("/");
-		
+
 		for(int i = 0; i<spl.length; i++) {
 		
 			String[] spl2 = spl[i].split(":");
@@ -210,13 +210,23 @@ public class Menu {
 			case "level":
 			
 				Game.CUR_LEVEL = Integer.parseInt(spl2[1]);
-				System.out.println(Game.CUR_LEVEL);	
+				System.out.println("Lever: "+Game.CUR_LEVEL);	
 					
 				Game.GameState = "NORMAL";
 				Game.resetGame();
+				Game.DefinirMusica();
 				
 				break;
 			case "bullet":
+				
+				Game.player.setAmmo(Integer.parseInt(spl2[2])); 
+				System.out.println("Bullet: "+Game.player.getAmmo());
+				
+				break;
+			case "reserva":
+				
+				Game.player.setReservaMuni(Integer.parseInt(spl2[3]));
+				System.out.println("Reserva Muni: "+Game.player.getReservaMuni());
 				
 				break;
 			}

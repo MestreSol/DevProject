@@ -79,7 +79,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		try {
 			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(5f);
 		} catch (FontFormatException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DefinirMusica();
@@ -173,13 +172,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public static void DefinirMusica() {
 		if(GameState == "MENU") {
+			
 			Sound.musicBackground.loop();
 			Sound.musicGameBackground.stop();
 			System.out.println("JAAJ");
+		
 		}else if(GameState == "NORMAL") {
 			Sound.musicGameBackground.loop();
 			Sound.musicBackground.stop();
 			System.out.println("JeeJ");
+		
 		}
 	}
 	public void tick() {
@@ -187,8 +189,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		
 		if(this.SaveGame) {
 			SaveGame = false;
-			String[] opt1 = {"level"};
-			int[] opt2 = {CUR_LEVEL};
+			String[] opt1 = {"level","bullet","reserva"};
+			int[] opt2 = {CUR_LEVEL,player.getAmmo(),player.getReservaMuni()};
+			 
 			Menu.saveGame(opt1, opt2, 42);
 			System.out.println("Save game");
 		}
@@ -218,7 +221,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public void render() {
 
 		BufferStrategy bs = this.getBufferStrategy();
-
+		
 		if (bs == null) {
 
 			this.createBufferStrategy(3);
@@ -275,7 +278,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}if(Game.GameState == "PAUSE"){
 			Pause.render(g);
 		}
-		
+		if(SaveGame) {
+			g.setColor(Color.white);
+			g.setFont(new Font("Arial", Font.BOLD,28));
+			g.drawString("Jogo Salvo", x, y);
+		}
 		bs.show();
 
 	}
