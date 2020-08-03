@@ -40,7 +40,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	private static final long serialVersionUID = 0l;
 
 	private boolean isRunning = true;
-	public InputStream stream = ClassLoader.getSystemClassLoader().getSystemResourceAsStream("fonts/pixelart.ttf");
+	public InputStream stream = ClassLoader.getSystemResourceAsStream("fonts/pixelart.ttf");
 	public Font newfont;
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
