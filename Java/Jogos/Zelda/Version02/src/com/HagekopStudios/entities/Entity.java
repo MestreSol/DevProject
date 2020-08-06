@@ -3,9 +3,12 @@ package com.HagekopStudios.entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 import com.HagekopStudios.main.Game;
 import com.HagekopStudios.world.Camera;
+import com.HagekopStudios.world.Node;
+import com.HagekopStudios.world.Vector2i;
 import com.HagekopStudios.world.World;
 
 public class Entity {
@@ -15,10 +18,12 @@ public class Entity {
 	
 	private int width;
 	private int height;
-	private int maskx = 16;
-	private int masky = 16;
-	private int mwidth;
-	private int mheight;
+	protected int maskx = 16;
+	protected int masky = 16;
+	protected int maskw = 10;
+	protected int maskh = 10;
+	protected int mwidth;
+	protected int mheight;
 	
 	private BufferedImage sprite;
 
@@ -32,6 +37,13 @@ public class Entity {
 	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(160, 0, World.TILE_SIZE, World.TILE_SIZE);
 	public static BufferedImage GUN_DONW = Game.spritesheet.getSprite(160, 16, World.TILE_SIZE, World.TILE_SIZE);
 	
+	protected  boolean right = false;
+	protected  boolean up = false;
+	protected  boolean left = false;
+	protected  boolean down = false;
+	protected  boolean moved = false;
+	
+	protected List<Node> path;
 	public int getX() {
 		return x;
 	}
@@ -100,6 +112,55 @@ public class Entity {
 		this.mheight = mheight;
 	
 	}
+	public void followPath(List<Node> path) {
+		
+		if(path != null) {
+			if(path.size() > 0) {
+				Vector2i target = path.get(path.size()-1).tile;
+				//xprev = x;
+				//yprev = y;
+				if(x < target.x*World.TILE_SIZE) {
+					left = true;
+					moved = true;
+					x += Enemy.speed;
+				}else if(x > target.x*World.TILE_SIZE) {
+					moved = true;
+					right = true;
+					x -= Enemy.speed;
+				}
+				if(y < target.y*World.TILE_SIZE) {
+					moved = true;
+					up = true;
+					y += Enemy.speed;
+				}else if(y > target.y*World.TILE_SIZE) {
+					
+					moved = true;
+					down = true;
+					y -= Enemy.speed;
+				}else {
+					moved = false;
+					down = true;
+				}
+			
+				if(x == target.x*World.TILE_SIZE && y == target.y *World.TILE_SIZE) {
+					path.remove(path.size()-1);
+				}
+				
+				
+			}
+		}
+	}
+	public double Distancia(int x1,int y1, int x2,int y2) {
+		return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+	}
+	public boolean isColiddingWithPlayer() {
+
+		Rectangle enemyCurrent = new Rectangle(this.getX() + maskx, this.getY() + masky, maskw, maskh);
+		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 16, 16);
+
+		return enemyCurrent.intersects(player);
+
+	}
 	public static boolean isColidding(Entity e1, Entity e2) {
 	
 		Rectangle e1Mack = new Rectangle(e1.getX()+ e1.maskx,e1.getY()+e1.masky, e1.mwidth, e1.mheight);
@@ -114,4 +175,27 @@ public class Entity {
 	
 	}
 	
+	public boolean isColidding(int xnext, int ynext) {
+
+		Rectangle enemyCurrent = new Rectangle(xnext + maskx, ynext + masky, maskw, maskh);
+
+		for (int i = 0; i < Game.enemies.size(); i++) {
+
+			Enemy e = Game.enemies.get(i);
+
+			if (e == this)
+				continue;
+
+			Rectangle targetEnemy = new Rectangle(e.getX() + maskx, e.getY() + masky, maskw, maskh);
+
+			if (enemyCurrent.intersects(targetEnemy)) {
+
+				return true;
+
+			}
+
+		}
+
+		return false;
+	}
 }

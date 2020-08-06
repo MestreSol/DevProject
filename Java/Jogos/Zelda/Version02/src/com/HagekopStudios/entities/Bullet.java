@@ -19,7 +19,7 @@ public class Bullet extends Entity {
 		this.dy = dy;
 	
 	}
-
+ 
 	public void tick() {
 	
 		x += dx * spd;

@@ -11,8 +11,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +34,7 @@ import com.HagekopStudios.graficos.Spritesheet;
 import com.HagekopStudios.graficos.UI;
 import com.HagekopStudios.world.World;
 
-public class Game extends Canvas implements Runnable, KeyListener, MouseListener {
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener,MouseMotionListener {
 
 	/**
 	 * 
@@ -46,9 +48,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static final int WIDTH = 240;
 	public static final int HEIGHT = 160;
 	public static final int SCALE = 3;
-	
+	public int mx,my;
 	public static int CUR_LEVEL = 1;
-
+	public int[] pixels;
+	/*public BufferedImage lightMap;
+	public int[] lightMapPixels;*/
 	public static BufferedImage image;
 
 	private Thread thread;
@@ -77,6 +81,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
 	public boolean SaveGame = false;
 	public BufferedImage f;
+	public static double mouseAngle = 0;
 	public void StanceValues() {
 		try {
 			newfont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(5f);
@@ -86,9 +91,20 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		DefinirMusica();
 		newmap();
 		
-		rand = new Random();
+		rand = new Random(); 
 		ui = new UI();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		
+		/*try {
+			lightMap = ImageIO.read(getClass().getResource("/lightmap.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		lightMapPixels = new int[lightMap.getWidth()*lightMap.getHeight()];
+		lightMap.getRGB(0,0,WIDTH,HEIGHT,lightMapPixels,0,lightMap.getWidth());
+		*/
+		pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
 		spritesheet = new Spritesheet("/spritesheet.png");
@@ -107,6 +123,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		StanceValues();
 		addKeyListener(this);
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT * SCALE));
 
 		initFrame();
@@ -232,14 +249,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 
 		Graphics g = image.getGraphics();
-
+		Graphics gp = image.getGraphics();
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		world.render(g);
 		for (int i = 0; i < Bullets.size(); i++) {
 			Bullets.get(i).render(g);
-		}
+		} 
+		
 		for (int i = 0; i < entities.size(); i++) {
 
 			Entity e = entities.get(i);
@@ -264,7 +282,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
-	
+		
 		if (Game.GameState.equals("GAME_OVER")) {
 			
 			Graphics2D g2d = (Graphics2D) g;
@@ -306,6 +324,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			
 			
 		}
+		Graphics2D g2d = (Graphics2D) g;
+		mouseAngle = Math.atan2(my-200+25,mx-200+25);
+		
+		g2d.rotate(0,200+25,200+25);
+	
+		//g.setColor(Color.RED);
+		//g.fillRect(200, 200, 50, 50);
+		
 		bs.show();
 
 	}
@@ -346,6 +372,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 				System.out.println("Vida: "+ player.life);
 				System.out.println("Sobre Vida: "+ player.sobrevida);
 				System.out.println("GameState: "+GameState);
+				System.out.println("Angulo Mouse: "+mouseAngle);
 				frames = 0;
 				timer += 1000;
 
@@ -433,6 +460,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 						JOptionPane.showMessageDialog(null, "Nao foi encontrado nenhum arquivo de save","Save Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}else if(menu.currentOption == 2) {
+					
+				}else if(menu.currentOption == 3) {
 					System.exit(1);
 					stop();
 				}
@@ -506,6 +535,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		this.mx = e.getX();
+		this.my = e.getY();
 	}
 
 }

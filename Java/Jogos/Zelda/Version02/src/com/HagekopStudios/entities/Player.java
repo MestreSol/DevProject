@@ -293,7 +293,7 @@ public class Player extends Entity {
 						px = 8;
 						
 					}
-				
+					checkShootDirection();
 					Bullet bullet = new Bullet(this.getX() + px, this.getY() + py, 2, 2, null, dx, dy);
 					Game.Bullets.add(bullet);
 					Sound.shoot.play();
@@ -525,6 +525,11 @@ public class Player extends Entity {
 	
 	}
 
+	public void checkShootDirection() {
+		if(Game.mouseAngle <= 0.50 && Game.mouseAngle >= -0.30) {
+			System.out.println("gg");
+		}
+	}
 	public void checkLifePack() {
 	
 		for (int i = 0; i < Game.entities.size(); i++) {
@@ -559,7 +564,7 @@ public class Player extends Entity {
 	public void checkArma() {
 		
 		for (int i = 0; i < Game.entities.size(); i++) {
-		
+		 
 			Entity e = Game.entities.get(i);
 			
 			if (e instanceof Weapon) {
@@ -762,7 +767,7 @@ public class Player extends Entity {
 				g.drawImage(RightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				
 				if (arma) {
-				
+					
 					g2d.drawImage(Entity.GUN_RIGHT, this.getX() + 8 - Camera.x, this.getY() + 2 - Camera.y, null);
 				
 				}
@@ -774,7 +779,7 @@ public class Player extends Entity {
 				
 				if (arma) {
 				
-					g.drawImage(Entity.GUN_LEFT, this.getX() - 8 - Camera.x, this.getY() + 2 - Camera.y, null);
+					g2d.drawImage(Entity.GUN_LEFT, this.getX() - 8 - Camera.x, this.getY() + 2 - Camera.y, null);
 				
 				}
 

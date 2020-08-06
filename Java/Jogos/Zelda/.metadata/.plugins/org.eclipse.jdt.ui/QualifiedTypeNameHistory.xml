@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.awt.List"/>
-<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Entity"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapontwo"/>
-<fullyQualifiedTypeName name="com.HagekopStudios.world.World"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Weapon"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.Camera"/>
 <fullyQualifiedTypeName name="java.awt.Color"/>
@@ -16,4 +14,10 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.main.Game"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.world.World"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.world.Node"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.world.AStar"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.entities.Enemy"/>
 </qualifiedTypeNameHistroy>
