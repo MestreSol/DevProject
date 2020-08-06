@@ -49,6 +49,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 	public static final int HEIGHT = 160;
 	public static final int SCALE = 3;
 	public int mx,my;
+	public static int zl = 1;
 	public static int CUR_LEVEL = 1;
 	public int[] pixels;
 	/*public BufferedImage lightMap;
@@ -186,6 +187,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		Game.world = new World("/" + Game.map);
 		Game.player.life = 100;
 		Game.player.sobrevida = 0;
+		Enemy.speed = zl;
+		Enemy.life = zl;
 	
 	}
 
@@ -216,11 +219,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		}
 		
 		if (GameState.equals("NORMAL")) {
-			
+			if(entities.size() == 0) {
+				
+				zl ++;
+			}
 			for (int i = 0; i < entities.size(); i++) {
 				
 				Entity e = entities.get(i);
 
+				
 				newmap();
 
 				e.tick();
@@ -228,6 +235,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 			for (int i = 0; i < Bullets.size(); i++) {
 				Bullets.get(i).tick();
 			}
+			
+			
 		} else if (GameState.equals("GAME_OVER")) {
 			
 		}else if(GameState.equals("MENU")) {
@@ -278,6 +287,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 		} else {
 			g.setColor(new Color(0, 255, 0));
 		}
+		g.drawString("Level: "+zl, 100, 10);
 		g.drawString("" + player.getReservaMuni(), 30, 153);
 		g.dispose();
 		g = bs.getDrawGraphics();

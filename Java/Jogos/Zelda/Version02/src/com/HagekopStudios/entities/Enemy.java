@@ -14,7 +14,7 @@ public class Enemy extends Entity {
 	// Declaração dos valores inalteraveis
 	private static final int maxIndex = 4;
 	private static final int maxFrames = 20;
-	private static final int speed = 1;
+	public static int speed = 1;
 	private static final int maskx = 8;
 	private static final int masky = 8;
 	private static final int maskw = 10;
@@ -32,7 +32,7 @@ public class Enemy extends Entity {
 
 	// Variaveis padroes
 	
-	private int life = 1;
+	public static int life = 1;
 	private int frames = 0;
 	private int index = 0;
 	private int damageFrames = 10;
@@ -123,7 +123,7 @@ public class Enemy extends Entity {
 			// Verifica a posição do jogador em relação ao inimigo para movimentalo,
 			// verifica tambem se ele esta colidindo com algo, Verifica a distancia que o
 			// inimigo esta do jogador
-			if ((int) x < Game.player.getX() && x < Game.player.getX() + World.TILE_SIZE * 3 && World.isFree((int) (x + speed), this.getY()) && !isColidding((int) (x + speed), this.getY())) {
+			if ((int) x < Game.player.getX() && World.isFree((int) (x + speed), this.getY()) && !isColidding((int) (x + speed), this.getY())) {
 
 				x += speed;
 				last = 1;
@@ -133,7 +133,7 @@ public class Enemy extends Entity {
 
 			}
 
-			else if ((int) x > Game.player.getX() && World.isFree((int) (x - speed), this.getY()) && x < Game.player.getX() + World.TILE_SIZE * 3 && !isColidding((int) (x - speed), this.getY())) {
+			else if ((int) x > Game.player.getX() && World.isFree((int) (x - speed), this.getY()) && !isColidding((int) (x - speed), this.getY())) {
 
 				x -= speed;
 				last = 2;
@@ -143,7 +143,7 @@ public class Enemy extends Entity {
 
 			}
 
-			if ((int) y < Game.player.getY() && World.isFree(this.getX(), (int) (y + speed)) && !isColidding(this.getX(), (int) (y + speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
+			if ((int) y < Game.player.getY() && World.isFree(this.getX(), (int) (y + speed)) && !isColidding(this.getX(), (int) (y + speed)) ) {
 
 				y += speed;
 				last = 3;
@@ -153,7 +153,7 @@ public class Enemy extends Entity {
 
 			}
 
-			else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed)) && !isColidding(this.getX(), (int) (y - speed)) && y < Game.player.getY() + World.TILE_SIZE * 3) {
+			else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int) (y - speed)) && !isColidding(this.getX(), (int) (y - speed))) {
 
 				last = 4;
 				y -= speed;
