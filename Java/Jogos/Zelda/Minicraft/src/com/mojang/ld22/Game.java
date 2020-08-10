@@ -26,51 +26,85 @@ import com.mojang.ld22.screen.Menu;
 import com.mojang.ld22.screen.TitleMenu;
 import com.mojang.ld22.screen.WonMenu;
 
+//Erda a classe Canvas via extends para criar a tela e chama o runnable para criar o loop do jogo
 public class Game extends Canvas implements Runnable {
-	private static final long serialVersionUID = 1L;
-	private Random random = new Random();
-	public static final String NAME = "Minicraft";
-	public static final int HEIGHT = 120;
-	public static final int WIDTH = 160;
+
+	
+	//Defini o tamanho da tela do jogo e a escala dos objetos
+	private static final int HEIGHT = 120;
+	private static final int WIDTH = 160;
 	private static final int SCALE = 3;
 
+	//versao do jogo
+	private static final long serialVersionUID = 1L;
+
+	//Nome da janela
+	public static final String NAME = "aaa";
+
+	//Instasncia um Buffered Image do tamanho total da tela e passa o tipo dele por parametro
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-	private boolean running = false;
+
+	//Instancia um objeto aleatorio para gerar valores aleatorios futuramente
+	private Random random = new Random();
+	
+	//Objeto da tela
 	private Screen screen;
+	
+	//Objeto de luz da tela
 	private Screen lightScreen;
 	private InputHandler input = new InputHandler(this);
-
-	private int[] colors = new int[256];
-	private int tickCount = 0;
-	public int gameTime = 0;
-
+	
+	//Instancia um objeto do tipo level para puchar os levels 
 	private Level level;
 	private Level[] levels = new Level[5];
-	private int currentLevel = 3;
+	
+	//Cria o objeto do player
 	public Player player;
 
+	//Cria o objeto menu para exibilo                                             
 	public Menu menu;
+
+	
 	private int playerDeadTime;
 	private int pendingLevelChange;
 	private int wonTimer = 0;
+	private int tickCount = 0;
+	private int currentLevel = 3;
+
+	private int[] colors = new int[256];
+	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+
+	public int gameTime = 0;
+
+	private boolean running = false;
+
 	public boolean hasWon = false;
 
 	public void setMenu(Menu menu) {
+
 		this.menu = menu;
-		if (menu != null) menu.init(this, input);
+
+		if (menu != null)
+			menu.init(this, input);
+
 	}
 
 	public void start() {
+
 		running = true;
+
 		new Thread(this).start();
+
 	}
 
 	public void stop() {
+
 		running = false;
+
 	}
 
 	public void resetGame() {
+
 		playerDeadTime = 0;
 		wonTimer = 0;
 		gameTime = 0;
@@ -86,37 +120,50 @@ public class Game extends Canvas implements Runnable {
 		levels[0] = new Level(128, 128, -3, levels[1]);
 
 		level = levels[currentLevel];
+
 		player = new Player(this, input);
 		player.findStartPos(level);
 
 		level.add(player);
 
 		for (int i = 0; i < 5; i++) {
+
 			levels[i].trySpawn(5000);
+
 		}
 	}
 
 	private void init() {
+
 		int pp = 0;
+
 		for (int r = 0; r < 6; r++) {
+
 			for (int g = 0; g < 6; g++) {
+
 				for (int b = 0; b < 6; b++) {
+
 					int rr = (r * 255 / 5);
 					int gg = (g * 255 / 5);
 					int bb = (b * 255 / 5);
+
 					int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
 
 					int r1 = ((rr + mid * 1) / 2) * 230 / 255 + 10;
 					int g1 = ((gg + mid * 1) / 2) * 230 / 255 + 10;
 					int b1 = ((bb + mid * 1) / 2) * 230 / 255 + 10;
+
 					colors[pp++] = r1 << 16 | g1 << 8 | b1;
 
 				}
 			}
 		}
 		try {
-			screen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
-			lightScreen = new Screen(WIDTH, HEIGHT, new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
+
+			screen = new Screen(WIDTH, HEIGHT,
+					new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
+			lightScreen = new Screen(WIDTH, HEIGHT,
+					new SpriteSheet(ImageIO.read(Game.class.getResourceAsStream("/icons.png"))));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -172,7 +219,8 @@ public class Game extends Canvas implements Runnable {
 		if (!hasFocus()) {
 			input.releaseAll();
 		} else {
-			if (!player.removed && !hasWon) gameTime++;
+			if (!player.removed && !hasWon)
+				gameTime++;
 
 			input.tick();
 			if (menu != null) {
@@ -220,10 +268,14 @@ public class Game extends Canvas implements Runnable {
 
 		int xScroll = player.x - screen.w / 2;
 		int yScroll = player.y - (screen.h - 8) / 2;
-		if (xScroll < 16) xScroll = 16;
-		if (yScroll < 16) yScroll = 16;
-		if (xScroll > level.w * 16 - screen.w - 16) xScroll = level.w * 16 - screen.w - 16;
-		if (yScroll > level.h * 16 - screen.h - 16) yScroll = level.h * 16 - screen.h - 16;
+		if (xScroll < 16)
+			xScroll = 16;
+		if (yScroll < 16)
+			yScroll = 16;
+		if (xScroll > level.w * 16 - screen.w - 16)
+			xScroll = level.w * 16 - screen.w - 16;
+		if (yScroll > level.h * 16 - screen.h - 16)
+			yScroll = level.h * 16 - screen.h - 16;
 		if (currentLevel > 3) {
 			int col = Color.get(20, 20, 121, 121);
 			for (int y = 0; y < 14; y++)
@@ -243,12 +295,14 @@ public class Game extends Canvas implements Runnable {
 
 		renderGui();
 
-		if (!hasFocus()) renderFocusNagger();
+		if (!hasFocus())
+			renderFocusNagger();
 
 		for (int y = 0; y < screen.h; y++) {
 			for (int x = 0; x < screen.w; x++) {
 				int cc = screen.pixels[x + y * screen.w];
-				if (cc < 255) pixels[x + y * WIDTH] = colors[cc];
+				if (cc < 255)
+					pixels[x + y * WIDTH] = colors[cc];
 			}
 		}
 
