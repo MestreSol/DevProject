@@ -20,4 +20,5 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.world.AStar"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Enemy"/>
+<fullyQualifiedTypeName name="java.lang.Thread"/>
 </qualifiedTypeNameHistroy>

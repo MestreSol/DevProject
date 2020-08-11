@@ -7,7 +7,7 @@ public interface GameConfig {
 	public static final int HEIGTH = 300;
 	public static final int SCALE = 3;
 	public static final int SpriteSize = 32;
-		
+	public static final String Name = "null";
 	//GameState and configs
 	
 	
