@@ -32,6 +32,7 @@ public class Game extends Canvas implements Runnable, GameConfig {
 	private int currentLevel = 3;
 	private int gameTime = 0;
 	public boolean hasWon = false;
+	
 	public void start() {
 		running = true;
 		new Thread(this).start();
