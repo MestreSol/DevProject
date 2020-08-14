@@ -20,7 +20,10 @@
 <fullyQualifiedTypeName name="com.HagekopStudios.entities.Enemy"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
 <fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="com.HagekopStudios.gfx.Color"/>
 <fullyQualifiedTypeName name="java.awt.Font"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.screen.Menu"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.main.GameConfig"/>
+<fullyQualifiedTypeName name="java.awt.BorderLayout"/>
+<fullyQualifiedTypeName name="com.HagekopStudios.gfx.Color"/>
 <fullyQualifiedTypeName name="com.HagekopStudios.gfx.Font"/>
 </qualifiedTypeNameHistroy>

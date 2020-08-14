@@ -43,6 +43,11 @@ public class GetsInput implements KeyListener {
 		}
 	}
 
+	public void releaseAll() {
+		for(int i = 0; i<keys.size();i++) {
+			keys.get(i).down = false;
+		}
+	}
 	public GetsInput(Game game) {
 		game.addKeyListener(this);
 	}
